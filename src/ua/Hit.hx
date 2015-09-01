@@ -71,13 +71,7 @@ class Hit {
 	*/
 	@:param(an)
 	public var applicationName:String;
-
-
-
-
-
-
-
+	
 
 	public function new(type:String, user:User) {
 		this.type = type;
