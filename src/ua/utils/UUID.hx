@@ -16,7 +16,9 @@ class UUID {
 	 */
 	public static function uuidRfc4122V4( ?seed : Int ) {
 		
-		if (seed.isNull()) seed = Math.floor(Math.random() * MPM);
+		if (seed==null) seed = Math.floor(Math.random() * MPM);
+		var pm_seed = new PM_PRNG(seed);
+
 		var chars = CHARS, uuid = [], i;
 
 		// rfc4122, version 4 form
@@ -29,8 +31,9 @@ class UUID {
 		// Fill in random data.  At i==19 set the high bits of clock sequence as
 		// per rfc4122, sec. 4.1.5
 		for (i in 0...36) {
-			if (uuid[i].isNull()) {
-				r = 0 | ((seed = seed.nextParkMiller()).toFloat() * 16).int();
+			if (uuid[i]==null) {
+				r = 0 | (pm_seed.nextInt() * 16);
+				trace("r");
 				uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
 			}
 		}
