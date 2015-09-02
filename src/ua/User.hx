@@ -31,8 +31,8 @@ class User {
 
 		var uaUserSO:SharedObject = SharedObject.getLocal("uaUser");
 
-		if(usUserSO.data!=null && usUserSO.data.clientID!=null) {
-			user = new User(usUserSO.data.clientID, userID);
+		if(uaUserSO.data!=null && uaUserSO.data.clientID!=null) {
+			user = new User(uaUserSO.data.clientID, userID);
 			return user;
 		}
 
