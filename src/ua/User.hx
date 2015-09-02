@@ -36,12 +36,20 @@ class User {
 			return user;
 		}
 
-		var clientID:String = UUID.uuidRfc4122V4();
+		var clientID:String = UUID.generate();
 
 		uaUserSO.setProperty("clientID", clientID);
 		uaUserSO.flush();
 
 		user = new User(clientID, userID);
 		return user;
+	}
+
+	static public function clear():Void {
+		user = null;
+
+		var uaUserSO:SharedObject = SharedObject.getLocal("uaUser");
+		uaUserSO.clear();
+		uaUserSO = null;
 	}
 }
