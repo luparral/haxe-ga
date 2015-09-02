@@ -18,7 +18,7 @@ class User {
 	public var userID(default, null):String;
 
 	
-	private function new(clientID:String, userID:String) {
+	public function new(clientID:String, userID:String) {
 		this.userID = userID;
 		this.clientID = clientID;
 	}

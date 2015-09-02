@@ -28,8 +28,9 @@ class Event extends Hit {
 	@param("ev")
 	public var value:String;	
 
-	public function new(?user:User) {
-		super(HIT_TYPE_EVENT, user);
+	public function new(trackingId:String, applicationName:String, category:String, action:String, protocolVersion:String="1") {
+		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
+		this.category = category;
+		this.action = action;
 	}
-
 }

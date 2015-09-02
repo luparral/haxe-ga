@@ -2,6 +2,8 @@ package ua;
 
 class Timing extends Hit{
 
+	static private var HIT_TYPE_EVENT:String = "timing";
+
 	/*
 	* Specifies the user timing category.
 	*/
@@ -73,6 +75,13 @@ class Timing extends Hit{
 	*/
 	@param("clt")
 	public var contentLoadTime:Integer;
+
+	public function new(trackingId:String, applicationName:String, userTimingCategory:String, userTimingVariableName:String, userTimingTime:String, protocolVersion:String="1") {
+		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
+		this.userTimingCategory = userTimingCategory;
+		this.userTimingVariableName = userTimingVariableName;
+		this.protocolVersion = protocolVersion;
+	}
 
 
 }

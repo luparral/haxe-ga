@@ -9,6 +9,6 @@
 	<haxelib name="openfl" />
 	<haxelib name="haxe-ga" />
 	
-	<assets path="Assets" rename="assets" />
+	<!-- <assets path="Assets" rename="assets" /> -->
 	
 </project>

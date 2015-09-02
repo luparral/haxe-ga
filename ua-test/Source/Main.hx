@@ -5,6 +5,7 @@ import openfl.display.Sprite;
 import ua.User;
 import ua.Hit;
 import ua.Event;
+import ua.Session;
 import ua.utils.QueryString;
 
 /**
@@ -13,7 +14,10 @@ import ua.utils.QueryString;
  */
 class Main extends Sprite {
 	
-	
+	var tracker:Tracker;
+	static public var TRAKING_ID(default, never):String = "UA-60080806-4";
+	static public var APPLICATION_NAME(default, never):String = "ua-test";
+
 	public function new () {
 		
 		super ();
@@ -21,35 +25,23 @@ class Main extends Sprite {
 		#if clear
 		User.clear();
 		#end
+
+		var session:Session = new Session();
+
+		session.start();
+		trace(session.sessionControl); // start
 		
 		var user:User = User.getCurrentUser("1");
 
-		trace("user uuid: "+user.clientID);
+		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
 
-		var hit:Hit = new Hit("lalala", null);
+		var initAppEvent = tracker.createEvent("applifecycle", "start");
+		initAppEvent.label = "INIT";
 
-		hit.screenName = "main";
-		hit.applicationName = "ua-test";
-
-		var queryString:QueryString = new QueryString(hit);
-
-		queryString.addParamsObj(user);
-
-		trace("hit example: "+queryString.toString());
+		tracker.sendHit(initAppEvent);
 
 
-		var event:Event = new Event(user);
 
-		event.screenName ="main";
-		event.applicationName = "ua-test";
-		event.category = "app";
-		event.action = "open";
-		event.value = "0";
-
-		queryString = new QueryString(event);
-
-		trace("hit event example: "+queryString.toString());
-		
 	}
 	
 	
