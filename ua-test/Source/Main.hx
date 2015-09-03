@@ -1,12 +1,15 @@
 package;
 
-
 import openfl.display.Sprite;
+import openfl.events.MouseEvent;
+
 import ua.User;
 import ua.Hit;
 import ua.Event;
 import ua.Session;
+import ua.Tracker;
 import ua.utils.QueryString;
+
 
 /**
  * Test project for Universal Analytics lib
@@ -15,6 +18,8 @@ import ua.utils.QueryString;
 class Main extends Sprite {
 	
 	var tracker:Tracker;
+	var user:User;
+
 	static public var TRAKING_ID(default, never):String = "UA-60080806-4";
 	static public var APPLICATION_NAME(default, never):String = "ua-test";
 
@@ -31,7 +36,7 @@ class Main extends Sprite {
 		session.start();
 		trace(session.sessionControl); // start
 		
-		var user:User = User.getCurrentUser("1");
+		user = User.getCurrentUser("1");
 
 		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
 
@@ -40,8 +45,18 @@ class Main extends Sprite {
 
 		tracker.sendHit(initAppEvent);
 
+		stage.addEventListener(MouseEvent.CLICK, sendEvent);
 
+	}
 
+	private function sendEvent(e:openfl.events.Event):Void {
+		user = User.getCurrentUser("1");
+
+		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
+
+		var initAppEvent = tracker.createEvent("ui", "click");
+
+		tracker.sendHit(initAppEvent);
 	}
 	
 	
