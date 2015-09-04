@@ -7,9 +7,10 @@ import openfl.net.URLLoader;
 import openfl.net.URLRequestMethod;
 import openfl.events.ErrorEvent;
 import openfl.events.IOErrorEvent;
+import haxe.Http;
 
 class Tracker {
-	static var HOST:String = "www.google-analytics.com";
+	static var HOST:String = "http://www.google-analytics.com";
 	static var PORT:Int = 80;
 	var trackingId:String;
 	var applicationName:String;
@@ -28,6 +29,26 @@ class Tracker {
 		return event;
 	}
 
+	public function createScreenview(screenName:String){
+		var screenview = new Screenview(trackingId, applicationName, screenName);
+		return screenview;
+	}
+
+	public function createTiming(userTimingCategory:String, userTimingVariable:String, userTimingTime:Int){
+		var timing = new Timing(trackingId, applicationName, userTimingCategory, userTimingVariable, userTimingTime);
+		return timing;
+	}
+
+	public function createSocial(socialNetwork:String, socialAction:String, socialActionTarget:String){
+		var social = new Social(trackingId, applicationName, socialNetwork, socialAction, socialActionTarget);
+		return social;
+	}
+
+	public function createException(){
+		var exception = new Exception(trackingId, applicationName);
+		return exception;		
+	}
+
 	public function sendHit(hit:Hit):Void {
 		//agregar info de session, si corresponde
 		var queryString:QueryString = new QueryString(hit);
@@ -39,26 +60,12 @@ class Tracker {
 	private function sendRequest(queryString:QueryString):Void{
 		var userAgent = "haxe-ga/2.0";
 		var url : String = '/collect?' + queryString.toString();
-		googleAnalytics.ThreadedSocketRequest.request(Tracker.HOST, Tracker.PORT, url, userAgent);
-    /*
-    	var request:URLRequest = new URLRequest("http://"+Tracker.HOST+url);
-
-		request.method = URLRequestMethod.GET;
-
-		var loader = new URLLoader();
-		loader.addEventListener(openfl.events.Event.COMPLETE, function(e:openfl.events.Event) {
-			trace("COMPLETE");
-			trace(e.target.data);
-		});
-		loader.addEventListener(ErrorEvent.ERROR, function(e:openfl.events.Event) {
-			trace("ErrorEvent: "+e);
-		});
-		loader.addEventListener(IOErrorEvent.IO_ERROR, function(e:openfl.events.IOErrorEvent) {
-			trace("IOErrorEvent: "+e);
-		});
-
-		loader.load(request);
-		*/
+		//googleAnalytics.ThreadedSocketRequest.request(Tracker.HOST, Tracker.PORT, url, userAgent);
+		var request:Http = new Http(url);
+		request.setHeader('User-Agent', userAgent);
+		request.setHeader('Host', Tracker.HOST);
+		request.setHeader('Connection', 'close');
+		request.request(false);		
 	}	
 
 }

@@ -20,7 +20,7 @@ class Timing extends Hit{
 	* Specifies the user timing value. The value is in milliseconds.	
 	*/
 	@param("utt")
-	public var userTimingTime:Integer;
+	public var userTimingTime:Int;
 
 	/*
 	* Optional. Specifies the user timing label.
@@ -32,51 +32,51 @@ class Timing extends Hit{
 	* Optional. Specifies the time it took for a page to load. The value is in milliseconds.
 	*/
 	@param("plt")
-	public var pageLoadTime:Integer;
+	public var pageLoadTime:Int;
 
 	/*
 	* Optional. Specifies the time it took to do a DNS lookup.The value is in milliseconds.
 	*/
 	@param("dns")
-	public var dnsTime:Integer;
+	public var dnsTime:Int;
 
 	/*
 	* Optional. Specifies the time it took for the page to be downloaded. The value is in milliseconds.
 	*/
 	@param("pdt")
-	public var pageDownloadTime:Integer;
+	public var pageDownloadTime:Int;
 
 	/*
 	* Optional. Specifies the time it took for any redirects to happen. The value is in milliseconds.
 	*/
 	@param("rrt")
-	public var redirectResponseTime:Integer;
+	public var redirectResponseTime:Int;
 
 	/*
 	* Optional. Specifies the time it took for a TCP connection to be made. The value is in milliseconds.
 	*/
 	@param("tcp")
-	public var tcpConnectTime:Integer;
+	public var tcpConnectTime:Int;
 
 	/*
 	* Optional. Specifies the time it took for the server to respond after the connect time. The value is in milliseconds.
 	*/
 	@param("srt")
-	public var serverResponseTime:Integer;
+	public var serverResponseTime:Int;
 
 	/*
 	* Optional. Specifies the time it took for Document.readyState to be 'interactive'. The value is in milliseconds.
 	*/
 	@param("dit")
-	public var domInteractiveTime:Integer;
+	public var domInteractiveTime:Int;
 
 	/*
 	* Optional. Specifies the time it took for the DOMContentLoaded Event to fire. The value is in milliseconds.
 	*/
 	@param("clt")
-	public var contentLoadTime:Integer;
+	public var contentLoadTime:Int;
 
-	public function new(trackingId:String, applicationName:String, userTimingCategory:String, userTimingVariableName:String, userTimingTime:String, protocolVersion:String="1") {
+	public function new(trackingId:String, applicationName:String, userTimingCategory:String, userTimingVariableName:String, userTimingTime:Int, protocolVersion:String="1") {
 		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
 		this.userTimingCategory = userTimingCategory;
 		this.userTimingVariableName = userTimingVariableName;

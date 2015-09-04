@@ -45,19 +45,48 @@ class Main extends Sprite {
 
 		tracker.sendHit(initAppEvent);
 
-		stage.addEventListener(MouseEvent.CLICK, sendEvent);
+		stage.addEventListener(MouseEvent.CLICK, sendScreenview);
 
 	}
 
 	private function sendEvent(e:openfl.events.Event):Void {
 		user = User.getCurrentUser("1");
-
 		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
-
 		var initAppEvent = tracker.createEvent("ui", "click");
-
 		tracker.sendHit(initAppEvent);
 	}
+
+
+	private function sendScreenview(e:openfl.events.Event):Void{
+		user = User.getCurrentUser("1");
+		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
+		var screenViewHit = tracker.createScreenview("aScreen");
+		screenViewHit.screenName = "HOLA";
+		tracker.sendHit(screenViewHit);
+	}
+
+	private function sendTiming(e:openfl.events.Event):Void{
+		user = User.getCurrentUser("1");
+		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
+		var timingHit = tracker.createTiming("aCategory", "aVariable", 1);
+		tracker.sendHit(timingHit);
+	}
+
+	private function sendSocial(e:openfl.events.Event):Void{
+		user = User.getCurrentUser("1");
+		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
+		var socialHit = tracker.createSocial("aSocialNetwork", "aSocialAction", "aSocialActionTarget");
+		tracker.sendHit(socialHit);
+	}
+
+	private function sendException(e:openfl.events.Event):Void{
+		user = User.getCurrentUser("1");
+		tracker = new Tracker(TRAKING_ID,APPLICATION_NAME, user);
+		var exceptionHit = tracker.createException();
+		tracker.sendHit(exceptionHit);
+	}
+
+
 	
 	
 }

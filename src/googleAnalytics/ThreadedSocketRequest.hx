@@ -20,16 +20,12 @@ class ThreadedSocketRequest {
 	}
 
 	private static function onThreadMessage(){
-		trace('onThreadMessage');
 		var s:sys.net.Socket = null;
 		var msg = null;
 		while(true){ // Keep thread open forever waiting for a message to send
 			try {
-				trace('try!');
 				msg = Thread.readMessage(true);
 				if ( msg == null ) continue;
-				trace('msg != null');
-				//var t1:Float = Sys.time();
 				s = new sys.net.Socket();
 				s.setBlocking(true);
 				trace("Resolving host...");
@@ -38,35 +34,25 @@ class ThreadedSocketRequest {
 				s.connect(host,msg.port);
 				trace("Sending...\n"+msg.message);
 				s.write(msg.message);
-				//s.output.flush();
-				trace("Wait for read...");
-				//s.setTimeout(5);
-				//s.setBlocking(false);
-				//s.waitForRead();
-				
 				trace("Readline...");
 				var response = s.input.readLine();
 
 				if(response==null) {
-					trace("Request failed. Timeout!!!!!!");
+					trace("Request failed. Timeout!");
 				} else {
 					trace('response: ' + response);
-				}
-
-				//var t2:Float = Sys.time();
-				// trace(Math.round((t2-t1)*1000)+"ms ");				
+				}		
 			} catch(e:Dynamic) {
 				trace("Exception: "+e);
 			}
 
 			try {
 				if(s!=null){
-					trace('s != null');
 					s.close();
 					s=null;
 				}
 			} catch(e:Dynamic) {
-				// trace("Closing Exception: "+e);
+
 			}
 		}	
 	}
@@ -74,10 +60,8 @@ class ThreadedSocketRequest {
 	#end
 
 	public static function request(host:String, port:Int, url:String, userAgent:String){
-		trace("request in ThreadedSocketRequest");
 		#if ( cpp || neko )
 			init();
-			//thread.sendMessage("GET "+url+" HTTP/1.1\nHost:www.google-analytics.com\nUser-Agent:"+userAgent+"\n\n");
 			thread.sendMessage({
 				"host":host,
 				"port":port,
