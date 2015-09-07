@@ -32,6 +32,12 @@ class Hit {
 	public var applicationName:String;
 
 	/*
+	* Optional. Specifies the application version.
+	*/
+	@param("av")
+	public var applicationVersion:String;
+
+	/*
 	* Optional. Specifies that a hit be considered non-interactive.
 	*/
 	public var nonInteractive:Bool;

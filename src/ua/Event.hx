@@ -26,7 +26,15 @@ class Event extends Hit {
 	 * Specifies the event value. 
 	 */
 	@param("ev")
-	public var value:String;	
+	public var value:String;
+
+	/*
+	* Optional. It is used for the 'Screen Name' of the screenview hit.
+	*/
+	@param("cd")
+	public var screenName:String;
+
+
 
 	public function new(trackingId:String, applicationName:String, category:String, action:String, protocolVersion:String="1") {
 		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);

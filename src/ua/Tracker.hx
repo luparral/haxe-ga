@@ -14,9 +14,10 @@ class Tracker {
 	static var PORT:Int = 80;
 	var trackingId:String;
 	var applicationName:String;
-	var user:User;
+	public var user:User;
+	public var screenName:String;
 
-	public function new(trackingId:String, applicationName:String, user:User) {
+	public function new(trackingId:String, applicationName:String, ?user:User) {
 		this.trackingId = trackingId;
 		this.applicationName = applicationName;
 		this.user = user;
@@ -26,21 +27,27 @@ class Tracker {
 
 	public function createEvent(category:String, action:String):Event {
 		var event = new Event(trackingId, applicationName, category, action);
+		if(screenName != null){
+			event.screenName = screenName;
+		}
 		return event;
 	}
 
-	public function createScreenview(screenName:String){
+	public function createScreenview(screenName:String=null){
+		if(screenName == null){
+			screenName = this.screenName;
+		}
 		var screenview = new Screenview(trackingId, applicationName, screenName);
 		return screenview;
 	}
 
-	public function createTiming(userTimingCategory:String, userTimingVariable:String, userTimingTime:Int){
-		var timing = new Timing(trackingId, applicationName, userTimingCategory, userTimingVariable, userTimingTime);
+	public function createTiming(category:String, variableName:String, time:Int){
+		var timing = new Timing(trackingId, applicationName, category, variableName, time);
 		return timing;
 	}
 
-	public function createSocial(socialNetwork:String, socialAction:String, socialActionTarget:String){
-		var social = new Social(trackingId, applicationName, socialNetwork, socialAction, socialActionTarget);
+	public function createSocial(network:String, action:String, actionTarget:String){
+		var social = new Social(trackingId, applicationName, network, action, actionTarget);
 		return social;
 	}
 
@@ -51,22 +58,43 @@ class Tracker {
 
 	public function sendHit(hit:Hit):Void {
 		//agregar info de session, si corresponde
+		trace('************************going to send hit');
 		var queryString:QueryString = new QueryString(hit);
 		queryString.addParamsObj(user);
-		trace("hit example: "+queryString.toString());
 		sendRequest(queryString);
 	}
 
 	private function sendRequest(queryString:QueryString):Void{
+		trace('***********************going to send request');
 		var userAgent = "haxe-ga/2.0";
-		var url : String = '/collect?' + queryString.toString();
+
+		trace('***********************queryString: ' + queryString.toString());
+
+		#if debug
+		var url : String = Tracker.HOST + '/debug/collect?' + queryString.toString();
+		#else
+		var url : String = Tracker.HOST + '/collect?' + queryString.toString();
+		#end
+
 		//googleAnalytics.ThreadedSocketRequest.request(Tracker.HOST, Tracker.PORT, url, userAgent);
 		var request:Http = new Http(url);
 		request.setHeader('User-Agent', userAgent);
 		request.setHeader('Host', Tracker.HOST);
 		request.setHeader('Connection', 'close');
 		request.request(false);		
-	}	
+	}
+
+	public function getTrackingId(){
+		return this.trackingId;
+	}
+
+	public function getApplicationName(){
+		return this.applicationName;
+	}
+
+	public function getUser(){
+		return this.user;
+	}
 
 }
 

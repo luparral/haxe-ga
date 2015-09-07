@@ -8,25 +8,25 @@ class Timing extends Hit{
 	* Specifies the user timing category.
 	*/
 	@param("utc")
-	public var userTimingCategory:String;
+	public var category:String;
 
 	/*
 	* Specifies the user timing variable.
 	*/
 	@param("utv")
-	public var userTimingVariableName:String;
+	public var variableName:String;
 
 	/*
 	* Specifies the user timing value. The value is in milliseconds.	
 	*/
 	@param("utt")
-	public var userTimingTime:Int;
+	public var time:Int;
 
 	/*
 	* Optional. Specifies the user timing label.
 	*/
 	@param("utl")
-	public var userTimingLabel:String;
+	public var label:String;
 
 	/*
 	* Optional. Specifies the time it took for a page to load. The value is in milliseconds.
@@ -76,10 +76,10 @@ class Timing extends Hit{
 	@param("clt")
 	public var contentLoadTime:Int;
 
-	public function new(trackingId:String, applicationName:String, userTimingCategory:String, userTimingVariableName:String, userTimingTime:Int, protocolVersion:String="1") {
+	public function new(trackingId:String, applicationName:String, category:String, variableName:String, time:Int, protocolVersion:String="1") {
 		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
-		this.userTimingCategory = userTimingCategory;
-		this.userTimingVariableName = userTimingVariableName;
+		this.category = category;
+		this.variableName = variableName;
 		this.protocolVersion = protocolVersion;
 	}
 

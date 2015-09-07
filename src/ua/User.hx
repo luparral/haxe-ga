@@ -15,7 +15,7 @@ class User {
 	*Optional. This is intended to be a known identifier for a user provided by the site owner/tracking library user. It must not itself be PII (personally identifiable information). The value should never be persisted in GA cookies or other Analytics provided storage.
 	*/
 	@param("uid")
-	public var userID(default, null):String;
+	public var userID:String;
 
 	
 	public function new(clientID:String, userID:String) {
