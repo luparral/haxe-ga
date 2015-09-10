@@ -2,12 +2,13 @@ package ua;
 
 class SystemInfo {
 
+	public var screenWidth:Float;
+	public var screenHeight:Float;
 	/*
 	* Optional. Specifies the screen resolution.
 	*/
 	@param("sr")
-	public var screenResolution:String;
-
+	public var screenResolution(get, null):String;
 
 	/*
 	* Optional. Specifies the viewable area of the browser / device.
@@ -49,5 +50,10 @@ class SystemInfo {
 		//constructor default
 	}
 
+
+	public function get_screenResolution(){
+		var resolutionString = ''+screenWidth+'x'+screenHeight;
+		return resolutionString;
+	}
 }
 	
