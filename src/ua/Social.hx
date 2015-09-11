@@ -23,8 +23,8 @@ class Social extends Hit {
 	@param("st")
 	public var actionTarget:String;
 
-	public function new(trackingId:String, applicationName:String, network:String, action:String, actionTarget:String, protocolVersion:String="1") {
-		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
+	public function new(trackingId:String, applicationName:String, network:String, action:String, actionTarget:String, trackeable:Bool=true, protocolVersion:String="1") {
+		super(HIT_TYPE_EVENT, trackingId, applicationName, trackeable, protocolVersion);
 		this.network = network;
 		this.action = action;
 		this.actionTarget = actionTarget;

@@ -11,8 +11,8 @@ class Screenview extends Hit{
 	public var screenName:String;
 
 
-	public function new(trackingId:String, applicationName:String, screenName:String, protocolVersion:String="1") {
-		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
+	public function new(trackingId:String, applicationName:String, screenName:String, trackeable:Bool=true, protocolVersion:String="1") {
+		super(HIT_TYPE_EVENT, trackingId, applicationName, trackeable, protocolVersion);
 		this.screenName = screenName;
 	}
 }

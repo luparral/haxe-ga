@@ -16,8 +16,8 @@ class Exception extends Hit {
 	@param("exf")
 	public var isExceptionFatal:String;	
 
-	public function new(trackingId:String, applicationName:String, protocolVersion:String="1") {
-		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
+	public function new(trackingId:String, applicationName:String, trackeable:Bool=true, protocolVersion:String="1") {
+		super(HIT_TYPE_EVENT, trackingId, applicationName, trackeable, protocolVersion);
 	}
 
 

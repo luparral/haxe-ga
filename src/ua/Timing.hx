@@ -76,8 +76,8 @@ class Timing extends Hit{
 	@param("clt")
 	public var contentLoadTime:Int;
 
-	public function new(trackingId:String, applicationName:String, category:String, variableName:String, time:Int, protocolVersion:String="1") {
-		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
+	public function new(trackingId:String, applicationName:String, category:String, variableName:String, time:Int, trackeable:Bool=true, protocolVersion:String="1") {
+		super(HIT_TYPE_EVENT, trackingId, applicationName, trackeable, protocolVersion);
 		this.category = category;
 		this.variableName = variableName;
 		this.protocolVersion = protocolVersion;
