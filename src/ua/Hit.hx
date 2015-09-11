@@ -71,12 +71,14 @@ class Hit {
 	@params("z")
 	public var cacheBuster:String;	
 	
+	private var trackeable:Bool;
 
-	private function new(type:String, trackingId:String, applicationName:String, protocolVersion:String="1") {
+	private function new(type:String, trackingId:String, applicationName:String, trackeable:Bool=true, protocolVersion:String="1") {
 		this.type = type;
 		this.trackingId = trackingId;
 		this.applicationName = applicationName;
 		this.protocolVersion = protocolVersion;
+		this.trackeable = trackeable;
 	}
 
 	public function get_ni():String {
@@ -87,6 +89,10 @@ class Hit {
 	public function get_aip():String{
 		if(anonymizeIP) return "1";
 		return null;
+	}
+
+	public function isTrackeable():Bool{
+		return this.trackeable;
 	}
 
 }

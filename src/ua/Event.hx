@@ -36,8 +36,8 @@ class Event extends Hit {
 
 
 
-	public function new(trackingId:String, applicationName:String, category:String, action:String, protocolVersion:String="1") {
-		super(HIT_TYPE_EVENT, trackingId, applicationName, protocolVersion);
+	public function new(trackingId:String, applicationName:String, category:String, action:String, trackeable:Bool=true, protocolVersion:String="1") {
+		super(HIT_TYPE_EVENT, trackingId, applicationName, trackeable, protocolVersion);
 		this.category = category;
 		this.action = action;
 	}

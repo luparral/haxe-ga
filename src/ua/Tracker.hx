@@ -32,8 +32,8 @@ class Tracker {
 	
 	// public function getSession():Session{}
 
-	public function createEvent(category:String, action:String):Event {
-		var event = new Event(trackingId, applicationName, category, action);
+	public function createEvent(category:String, action:String, trackeable:Bool=true):Event {
+		var event = new Event(trackingId, applicationName, category, action, trackeable);
 		if(screenName != null){
 			event.screenName = screenName;
 		}
@@ -81,10 +81,13 @@ class Tracker {
 	public function sendHit(hit:Hit):Void {
 		//agregar info de session, si corresponde
 		trace('************************going to send hit');
-		hit.applicationVersion=Game.instance.buildVersion.toString();
-		var queryString:QueryString = new QueryString(hit);
-		queryString.addParamsObj(user);
-		sendRequest(queryString);
+		trace('************************ hit is trackeable: ' + hit.isTrackeable());
+		if(hit.isTrackeable()){
+			hit.applicationVersion=Game.instance.buildVersion.toString();
+			var queryString:QueryString = new QueryString(hit);
+			queryString.addParamsObj(user);
+			sendRequest(queryString);
+		}
 	}
 
 	public function sendFirstHit(hit:Hit, session:Session, systemInfo:SystemInfo):Void {
@@ -99,6 +102,9 @@ class Tracker {
 	}
 
 	private function sendRequest(queryString:QueryString):Void{
+		//TODO: do request in background. 
+		//For instance, check this library: https://github.com/yupswing/akifox-asynchttp
+
 		trace('***********************going to send request');
 		
 		var version:String=" [haxe]";
