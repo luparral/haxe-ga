@@ -11,7 +11,7 @@ import openfl.events.ErrorEvent;
 import openfl.events.IOErrorEvent;
 import ar.com.euda.openfl.hamburga.Game;
 import flash.Lib;
-
+import ua.ThreadedRequest;
 
 import haxe.Http;
 
@@ -86,7 +86,7 @@ class Tracker {
 			hit.applicationVersion=Game.instance.buildVersion.toString();
 			var queryString:QueryString = new QueryString(hit);
 			queryString.addParamsObj(user);
-			sendRequest(queryString);
+			ThreadedRequest.request(queryString);
 		}
 	}
 
@@ -98,61 +98,10 @@ class Tracker {
 		queryString.addParamsObj(user);
 		queryString.addParamsObj(session);
 		queryString.addParamsObj(systemInfo);
-		sendRequest(queryString);
+		ThreadedRequest.request(queryString);
 	}
 
-	private function sendRequest(queryString:QueryString):Void{
-		//TODO: do request in background. 
-		//For instance, check this library: https://github.com/yupswing/akifox-asynchttp
-
-		trace('***********************going to send request');
-		
-		var version:String=" [haxe]";
-		#if (openfl && !flash && !html5)
-		#if openfl_next
-		version+="/" + Lib.application.config.packageName + "." + Lib.application.config.version;
-		#else
-		version+="/" + Lib.packageName + "." + Lib.version;
-		#end
-		#end
-
-
-		#if ios
-		var userAgent = 'iOS'+version;
-		#elseif android
-		var userAgent = 'Android'+version;
-		#elseif mac
-		var userAgent = 'OS-X'+version;
-		#elseif tizen
-		var userAgent = "Tizen"+version;
-		#elseif blackberry
-		var userAgent = "BlackBerry"+version;
-		#elseif windows
-		var userAgent = "Windows"+version;
-		#elseif linux
-		var userAgent = "Linux"+version;
-		#else
-		var userAgent = '-not-set-'+version;
-		#end
-
-
-		trace('*********************** userAgent ' + userAgent);
-		trace('*********************** queryString: ' + queryString.toString());
-
-		#if debug
-		var url : String = Tracker.HOST + '/debug/collect?' + queryString.toString();
-		#else
-		var url : String = Tracker.HOST + '/collect?' + queryString.toString();
-		#end
-
-		//googleAnalytics.ThreadedSocketRequest.request(Tracker.HOST, Tracker.PORT, url, userAgent);
-		var request:Http = new Http(url);
-		request.setHeader('User-Agent', userAgent);
-		request.setHeader('Host', Tracker.HOST);
-		request.setHeader('Connection', 'close');
-		request.request(false);		
-	}
-
+	
 	public function getTrackingId(){
 		return this.trackingId;
 	}
