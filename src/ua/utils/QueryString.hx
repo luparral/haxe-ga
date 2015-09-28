@@ -38,7 +38,9 @@ class QueryString {
 		var queryString = "";
 
 		for(paramName in parametersMap.keys()) {
-			queryString += StringTools.urlEncode(paramName)+"="+StringTools.urlEncode(parametersMap.get(paramName))+"&";
+			if(queryString.length != 0)
+				queryString += "&";
+			queryString += StringTools.urlEncode(paramName)+"="+StringTools.urlEncode(parametersMap.get(paramName));
 		}
 
 		return queryString;

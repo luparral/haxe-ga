@@ -12,10 +12,12 @@ import flash.Lib;
 
 class ThreadedRequest {
 
+	public static var HOST:String = "http://www.google-analytics.com";
+
+	#if !flash
 
 	private static var thread:Thread;
 	private static var initted:Bool=false;	
-	private static var HOST:String = "http://www.google-analytics.com";
 	private static var PORT:Int = 80;
 
 	public static function init() {
@@ -23,7 +25,6 @@ class ThreadedRequest {
 		initted=true;
 		thread = Thread.create(onThreadMessage);
 	}
-
 
 	private static function onThreadMessage(){
 		var msg = null;
@@ -94,4 +95,6 @@ class ThreadedRequest {
 		request.setHeader('Connection', 'close');
 		request.request(false);
 	}
+
+	#end
 }

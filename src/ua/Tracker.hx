@@ -86,7 +86,7 @@ class Tracker {
 			hit.applicationVersion=Game.instance.buildVersion.toString();
 			var queryString:QueryString = new QueryString(hit);
 			queryString.addParamsObj(user);
-			ThreadedRequest.request(queryString);
+			sendRequest(queryString);
 		}
 	}
 
@@ -98,7 +98,32 @@ class Tracker {
 		queryString.addParamsObj(user);
 		queryString.addParamsObj(session);
 		queryString.addParamsObj(systemInfo);
+		sendRequest(queryString);
+	}
+
+	private function sendRequest(queryString:QueryString):Void {
+		#if flash
+		trace("+++++++ Sending flash analytics request");
+
+		var query:String = queryString.toString();
+		
+		#if debug
+		var url:String = ThreadedRequest.HOST + '/debug/collect?' + query;
+		#else
+		var url:String = ThreadedRequest.HOST + '/collect?' + query;
+		#end
+
+		var l : flash.display.Loader = new flash.display.Loader();
+		var urlRequest : flash.net.URLRequest=new flash.net.URLRequest();
+		urlRequest.url=url;
+		try{ 
+			l.load(urlRequest);
+		} catch (e:flash.errors.Error) {
+			trace("++++++ flash request error. id ["+e.errorId+"] name ["+e.name+"] message ["+e.message+"]");
+		}
+		#else
 		ThreadedRequest.request(queryString);
+		#end
 	}
 
 	
