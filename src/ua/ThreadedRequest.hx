@@ -43,9 +43,7 @@ class ThreadedRequest {
 	public static function request(queryString:QueryString):Void{
 		#if ( cpp || neko )
 			init();
-			thread.sendMessage({
-				"queryString":queryString.toString()
-			});
+			thread.sendMessage(queryString.toString());
 		#end
 	}
 
@@ -79,15 +77,15 @@ class ThreadedRequest {
 		var userAgent = '-not-set-'+version;
 		#end
 
-
-		trace('*********************** userAgent ' + userAgent);
-		trace('*********************** query: ' + query);
-
+		trace('******************* userAgent ' + userAgent);
+		
 		#if debug
-		var url : String = ThreadedRequest.HOST + '/debug/collect?' + query;
+		var url:String = ThreadedRequest.HOST + '/debug/collect?' + query;
 		#else
-		var url : String = ThreadedRequest.HOST + '/collect?' + query;
+		var url:String = ThreadedRequest.HOST + '/collect?' + query;
 		#end
+		
+		trace("******************* ua url: " + url);
 
 		//googleAnalytics.ThreadedSocketRequest.request(Tracker.HOST, Tracker.PORT, url, userAgent);
 		var request:Http = new Http(url);

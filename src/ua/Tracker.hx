@@ -80,8 +80,8 @@ class Tracker {
 
 	public function sendHit(hit:Hit):Void {
 		//agregar info de session, si corresponde
-		trace('************************going to send hit');
-		trace('************************ hit is trackeable: ' + hit.isTrackeable());
+		//trace('************************going to send hit');
+		//trace('************************ hit is trackeable: ' + hit.isTrackeable());
 		if(hit.isTrackeable()){
 			hit.applicationVersion=Game.instance.buildVersion.toString();
 			var queryString:QueryString = new QueryString(hit);
