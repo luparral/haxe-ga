@@ -9,6 +9,7 @@ import openfl.net.URLLoader;
 import openfl.net.URLRequestMethod;
 import openfl.events.ErrorEvent;
 import openfl.events.IOErrorEvent;
+import openfl.events.SecurityErrorEvent;
 import ar.com.euda.openfl.hamburga.Game;
 import flash.Lib;
 import ua.ThreadedRequest;
@@ -112,15 +113,16 @@ class Tracker {
 		#else
 		var url:String = ThreadedRequest.HOST + '/collect?' + query;
 		#end
-
-		var l : flash.display.Loader = new flash.display.Loader();
-		var urlRequest : flash.net.URLRequest=new flash.net.URLRequest();
-		urlRequest.url=url;
-		try{ 
-			l.load(urlRequest);
-		} catch (e:flash.errors.Error) {
-			trace("++++++ flash request error. id ["+e.errorId+"] name ["+e.name+"] message ["+e.message+"]");
-		}
+		
+		var loader:flash.display.Loader = new flash.display.Loader();
+		var urlRequest:flash.net.URLRequest = new flash.net.URLRequest(url);
+		loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, function(ioError:IOErrorEvent) {
+			trace("ga request error: " + ioError.text);
+		});
+		loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function(securityError:SecurityErrorEvent) {
+			trace("ga request security error");
+		});
+		loader.load(urlRequest);
 		#else
 		ThreadedRequest.request(queryString);
 		#end
