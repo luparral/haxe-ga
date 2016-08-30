@@ -12,18 +12,25 @@ import flash.Lib;
 
 class ThreadedRequest {
 
+#if UADEBUG
+	public static var HOST:String = "http://test.euda.com.ar";
+#else
 	public static var HOST:String = "http://www.google-analytics.com";
+#end
 
 	#if !flash
 
 	private static var thread:Thread;
-	private static var initted:Bool=false;	
+	private static var initted:Bool=false;
 	private static var PORT:Int = 80;
 
 	public static function init() {
 		if(initted) return;
 		initted=true;
 		thread = Thread.create(onThreadMessage);
+#if UAPROXY
+		Http.PROXY = {port:8080, host:"192.168.1.193", auth:{user:null, pass:null}};
+#end
 	}
 
 	private static function onThreadMessage(){
@@ -37,7 +44,7 @@ class ThreadedRequest {
 			} catch(e:Dynamic) {
 					trace("Exception: "+e);
 			}
-			
+
 		}
 	}
 
@@ -49,10 +56,10 @@ class ThreadedRequest {
 	}
 
 	private static function sendRequest(query:String):Void{
-		
+
 		var version:String=" [haxe]";
 		#if (openfl && !flash && !html5)
-		#if openfl_next
+		#if !legacy
 		version+="/" + Lib.application.config.packageName + "." + Lib.application.config.version;
 		#else
 		version+="/" + Lib.packageName + "." + Lib.version;
@@ -79,13 +86,13 @@ class ThreadedRequest {
 		#end
 
 		trace('******************* userAgent ' + userAgent);
-		
-		#if debug
-		var url:String = ThreadedRequest.HOST + '/debug/collect?' + query;
+
+		#if (debug && UADEBUG)
+		var url:String = ThreadedRequest.HOST + '/debug/collect.php?' + query;
 		#else
 		var url:String = ThreadedRequest.HOST + '/collect?' + query;
 		#end
-		
+
 		trace("******************* ua url: " + url);
 
 		//googleAnalytics.ThreadedSocketRequest.request(Tracker.HOST, Tracker.PORT, url, userAgent);
@@ -93,7 +100,7 @@ class ThreadedRequest {
 		request.setHeader('User-Agent', userAgent);
 		request.setHeader('Host', ThreadedRequest.HOST);
 		request.setHeader('Connection', 'close');
-		request.request(false);
+		request.request();
 	}
 
 	#end
