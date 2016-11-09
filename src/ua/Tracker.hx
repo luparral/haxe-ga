@@ -103,7 +103,7 @@ class Tracker {
 	}
 
 	private function sendRequest(queryString:QueryString):Void {
-		#if flash
+		#if (flash || html5) 
 		trace("+++++++ Sending flash analytics request");
 
 		var query:String = queryString.toString();

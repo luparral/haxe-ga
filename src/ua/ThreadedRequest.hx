@@ -18,7 +18,7 @@ class ThreadedRequest {
 	public static var HOST:String = "http://www.google-analytics.com";
 #end
 
-	#if !flash
+	#if (!flash && !html5)
 
 	private static var thread:Thread;
 	private static var initted:Bool=false;
